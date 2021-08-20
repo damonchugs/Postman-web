@@ -24,7 +24,7 @@ const Home: React.FC = () => {
   };
   return (
     <div className={Style.AppHome}>
-      <h1>GUN-POSTMAN-WEB</h1>
+      <h1>GAN-POSTMAN-WEB</h1>
       {/* 地址栏和请求类型 */}
       <SearchBox changeAddress={(val: string) => changeAddress(val)} changePostType={(val: string) => changePostType(val)} />
       {/* param和header参数设置，后续加上cookies */}
