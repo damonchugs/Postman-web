@@ -8,9 +8,12 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "ajax": "^0.0.4",
     "antd": "^3.19.5",
+    "axios": "^0.21.1",
     "cross-env": "^7.0.3",
     "dva": "^2.6.0-beta.6",
+    "fetch": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
