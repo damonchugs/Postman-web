@@ -23,3 +23,5 @@ postman每次打开太麻烦了，写一个网页版的
 
 ## 插件搭配ajax，axios，fetch或者手动写一个XHRHTTPRequest（后话，后话~）
 
+## UI页面已经写好，现在着手请求逻辑不知道react有没有和vue的store一样的组件可使用，这样页面间传值方便了
+
