@@ -1,35 +1,42 @@
 import { Effect, ImmerReducer, Reducer, Subscription } from 'umi';
+
+interface ParamType {
+  name: string,
+  value: number | string,
+};
+
 export interface RequestModelState {
   postType: string;
   address: string;
-  config: { param: Object, header: Object },
-  response: any
+  response: any;
+  config: { param: any[], header: ParamType[] };
 }
 export interface RequestType {
-  namespace: 'Request';
+  namespace: 'RequestInfo';
   state: RequestModelState;
-  effects: {
+  effects?: {
     query: Effect;
   };
-  reducers: {
-    save: Reducer<RequestModelState>;
-    setState: Reducer<RequestModelState>;
+  reducers?: {
+    save?: Reducer<RequestModelState>;
+    setState?: Reducer<RequestModelState>;
+    changeType?: Reducer<RequestModelState>;
+    changeResponse?: Reducer<RequestModelState>;
     // 启用 immer 之后
     // save: ImmerReducer<UserInfoModelState>;
   };
-  subscriptions: { setup: Subscription };
+  subscriptions?: { setup: Subscription };
 }
 const RequestModel: RequestType = {
-  namespace: 'Request',
+  namespace: 'RequestInfo',
   state: {
     postType: 'GET',
     address: '',
-    config: { param: {}, header: {} },
-    response: {}
-  },
-  effects: {
-    *query({ payload }, { call, put }) {
+    config: {
+      param: [{ name: '', value: '' },{ name: '', value: '' },{ name: '', value: '' }],
+      header: [{ name: '', value: '' },{ name: '', value: '' },{ name: '', value: '' }]
     },
+    response: { info: '暂无信息' }
   },
   reducers: {
     save(state, action) {
@@ -44,20 +51,11 @@ const RequestModel: RequestType = {
         ...action.payload,
       };
     },
-    // 启用 immer 之后
-    // save(state, action) {
-    //   state.name = action.payload;
-    // },
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        if (pathname === '/') {
-          dispatch({
-            type: 'query',
-          })
-        }
-      });
+    changeType(state, action) {
+      return {
+        ...state,
+        ...action.payload
+      }
     }
   }
 };

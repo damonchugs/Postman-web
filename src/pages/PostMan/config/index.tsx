@@ -10,12 +10,12 @@ import Headers from './header/index';
 
 import { ConfigRequestType } from "@/pages/PostMan/config_type";
 
-const ConfigRequest: React.FC<ConfigRequestType> = (props: ConfigRequestType) => {
+const ConfigRequest: React.FC = () => {
   return (
     <div className={Style['config-request']}>
       <Tabs type="card">
         <TabPane tab="Param" key="1">
-          <Param changeParam={props.changeParam} />
+          <Param />
         </TabPane>
         <TabPane tab="Header" key="2">
           <Headers />
