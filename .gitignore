@@ -9,6 +9,7 @@
 
 # production
 /dist
+/Gan_PostMan_Web
 
 # misc
 .DS_Store
