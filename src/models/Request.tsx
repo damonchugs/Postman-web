@@ -21,7 +21,10 @@ export interface RequestType {
     save?: Reducer<RequestModelState>;
     setState?: Reducer<RequestModelState>;
     changeType?: Reducer<RequestModelState>;
-    changeResponse?: Reducer<RequestModelState>;
+    changeResponse?: ImmerReducer<RequestModelState>;
+    changePostType?: ImmerReducer<RequestModelState>;
+    changeParam?: ImmerReducer<RequestModelState>;
+    changeAddress?: ImmerReducer<RequestModelState>;
     // 启用 immer 之后
     // save: ImmerReducer<UserInfoModelState>;
   };
@@ -50,6 +53,18 @@ const RequestModel: RequestType = {
         ...state,
         ...action.payload,
       };
+    },
+    changePostType(state, action) {
+      state.postType = action.payload
+    },
+    changeParam(state, action) {
+      state.config.param = action.payload
+    },
+    changeAddress(state, action) {
+      state.address = action.payload
+    },
+    changeResponse(state, action) {
+      state.response = action.payload
     },
     changeType(state, action) {
       return {

@@ -23,7 +23,7 @@ import { Loading, connect } from 'umi';
 export interface RequestModelState {
   postType: string;
   address: string;
-  config: { param: Object, header: Object },
+  config: { param: any, header: any },
   response: any
 }
 
@@ -40,7 +40,7 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
   // 修改数据
   const changeState = (val: string) => {
     let param: any = []
-    const state: RequestModelState = {
+    let state: RequestModelState = {
       ...RequestInfo,
       address: val
     }
@@ -51,14 +51,12 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
         param.push({ name: key, value: param_object[key] })
       }
       param.push({ name: '', value: '' })
-      state.address = val // .split('?')[0]
-      state.config.param = param
+      dispatch({ type: 'RequestInfo/changeParam', payload: param})
     }
     
+    dispatch({ type: 'RequestInfo/changeAddress', payload: val})
     if (val.includes('http')) {
       requestUrl(state.address, state.postType, state.config.param)
-    } else {
-      changeTypeFoo(state);
     }
   };
 
@@ -71,17 +69,17 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
       }
     })
     Request(address, data, postType).then((Response: any) => {
-      changeTypeFoo({
-        ...RequestInfo,
-        response: Response
+      dispatch({
+        type: 'RequestInfo/changeResponse',
+        payload: Response
       })
     }).catch((error: any) => {
       console.error(error);
-      changeTypeFoo({
-        ...RequestInfo,
-        response: { error: error }
+      dispatch({
+        type: 'RequestInfo/changeResponse',
+        payload: { error: error }
       })
-    });
+    })
   };
 
   const changeTypeFoo = (state: RequestModelState) => {
@@ -91,10 +89,19 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
     })
   }
 
+  // 修改请求方式
+  const changePostType = (val: string) => {
+    console.log(val)
+    dispatch({
+      type: 'RequestInfo/changePostType',
+      payload: val
+    })
+  };
+
   return (
     <div className={Style.SearchBox}>
       <Input.Group compact>
-        <Select defaultValue={postType} style={{ width: '100px' }} onChange={(val: string) => changeState(val)}>
+        <Select defaultValue={postType} style={{ width: '100px' }} onChange={(val: string) => changePostType(val)}>
           {post_type.map(t => {
             return (<Option value={t} key={t}>{t}</Option>)
           })}

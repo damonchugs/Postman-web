@@ -23,6 +23,7 @@ export default defineConfig({
   ],
   fastRefresh: {},
   dva: {
+    immer: true,
     lazyLoad: true
   },
   cssLoader: {
