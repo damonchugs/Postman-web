@@ -19,10 +19,10 @@ postman每次打开太麻烦了，写一个网页版的
 5.cookies
   这个用的不多，不过有时间就加上。
 
-## 最近在用react开发，所以就写react吧。虽说vue开发简单一些，用react练手
+#### 最近在用react开发，所以就写react吧。虽说vue开发简单一些，用react练手
 
-## 插件搭配ajax，axios，fetch或者手动写一个XHRHTTPRequest（后话，后话~）
+#### 插件搭配ajax，axios，fetch或者手动写一个XHRHTTPRequest（后话，后话~）
 
-## UI页面已经写好，现在着手请求逻辑不知道react有没有和vue的store一样的组件可使用，这样页面间传值方便了
+#### UI页面已经写好，现在着手请求逻辑不知道react有没有和vue的store一样的组件可使用，这样页面间传值方便了
 
-## 新增功能（考虑阶段）：解析json数据的
+#### 新增功能（考虑阶段）：解析json数据的
