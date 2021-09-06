@@ -27,6 +27,12 @@ postman每次打开太麻烦了，写一个网页版的
 
 ### 新增功能（考虑阶段）：解析json数据的
 
-`console.log(window)`
+```
+yarn
+yarn start
+
+console.log(window)
+
+`
 
 
