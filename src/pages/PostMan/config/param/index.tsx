@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import { Input, Select, Row, Col } from 'antd';
 
 import Style from './index.less';
 
-import { ParamType, RequestModelState } from "@/pages/PostMan/config_type";
+import { ParamType, RequestModelState } from '@/pages/PostMan/config_type';
 
 import { connect, Loading } from 'umi';
 
 interface PageType {
   RequestInfo: RequestModelState;
-  loading: Loading,
-  dispatch?: any
-};
+  loading: Loading;
+  dispatch?: any;
+}
 
-const ConfigRequestParam: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
+const ConfigRequestParam: React.FC<PageType> = ({
+  RequestInfo,
+  loading,
+  dispatch,
+}) => {
   // let [param, setParam] = useState([{ name: '', value: '' },{ name: '', value: '' },{ name: '', value: '' }]);
   // setParam(param = );
-  
-  let param = [...RequestInfo.config.param]
+
+  let param = [...RequestInfo.config.param];
 
   // 监听修改
   const inputChange = (val: any, index: Number) => {
@@ -48,29 +52,50 @@ const ConfigRequestParam: React.FC<PageType> = ({ RequestInfo, loading, dispatch
       payload: {
         ...RequestInfo,
         config: { param, header: RequestInfo.config.header },
-      }
-    })
+      },
+    });
   };
   return (
     <div className={Style['config-request-param']}>
       <Row className={Style.header}>
-        <Col span={12}>key</Col>
+        <Col span={12} className={Style.bordeRight}>
+          key
+        </Col>
         <Col span={12}>value</Col>
       </Row>
       {param.map((t: ParamType, index: number) => {
-        return (<Input.Group compact key={`config-request-param_${index}`}>
-                  <Input style={{ width: '50%' }} data-value="name" value={t.name} onChange={(val) => inputChange(val, index)} />
-                  <Input style={{ width: '50%' }} data-value="value" value={t.value} onChange={(val) => inputChange(val, index)} />
-                </Input.Group>)
+        return (
+          <Input.Group compact key={`config-request-param_${index}`}>
+            <Input
+              style={{ width: '50%' }}
+              data-value="name"
+              value={t.name}
+              onChange={(val) => inputChange(val, index)}
+            />
+            <Input
+              style={{ width: '50%' }}
+              data-value="value"
+              value={t.value}
+              onChange={(val) => inputChange(val, index)}
+            />
+          </Input.Group>
+        );
       })}
-      
     </div>
-  )
+  );
 };
 
 // export default ConfigRequestParam;
 export default connect(
-  ({ RequestInfo, loading, dispatch }: { RequestInfo: RequestModelState; loading: Loading; dispatch: any }) => ({
+  ({
+    RequestInfo,
+    loading,
+    dispatch,
+  }: {
+    RequestInfo: RequestModelState;
+    loading: Loading;
+    dispatch: any;
+  }) => ({
     RequestInfo,
     loading: loading.models.index,
     dispatch,

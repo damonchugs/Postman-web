@@ -1,15 +1,15 @@
 import { Effect, ImmerReducer, Reducer, Subscription } from 'umi';
 
 interface ParamType {
-  name: string,
-  value: number | string,
-};
+  name?: number | string;
+  value?: number | string;
+}
 
 export interface RequestModelState {
   postType: string;
   address: string;
   response: any;
-  config: { param: any[], header: ParamType[] };
+  config: { param: any[]; header: any[] };
 }
 export interface RequestType {
   namespace: 'RequestInfo';
@@ -24,6 +24,7 @@ export interface RequestType {
     changeResponse?: ImmerReducer<RequestModelState>;
     changePostType?: ImmerReducer<RequestModelState>;
     changeParam?: ImmerReducer<RequestModelState>;
+    changeHeader?: ImmerReducer<RequestModelState>;
     changeAddress?: ImmerReducer<RequestModelState>;
     // 启用 immer 之后
     // save: ImmerReducer<UserInfoModelState>;
@@ -36,10 +37,18 @@ const RequestModel: RequestType = {
     postType: 'GET',
     address: '',
     config: {
-      param: [{ name: '', value: '' },{ name: '', value: '' },{ name: '', value: '' }],
-      header: [{ name: '', value: '' },{ name: '', value: '' },{ name: '', value: '' }]
+      param: [
+        { name: '', value: '' },
+        { name: '', value: '' },
+        { name: '', value: '' },
+      ],
+      header: [
+        { name: 'Content-Type', value: 'application/json;charset=utf8' },
+        { name: '', value: '' },
+        { name: '', value: '' },
+      ],
     },
-    response: { info: '暂无信息' }
+    response: { info: '暂无信息' },
   },
   reducers: {
     save(state, action) {
@@ -55,23 +64,26 @@ const RequestModel: RequestType = {
       };
     },
     changePostType(state, action) {
-      state.postType = action.payload
+      state.postType = action.payload;
     },
     changeParam(state, action) {
-      state.config.param = action.payload
+      state.config.param = action.payload;
+    },
+    changeHeader(state, action) {
+      state.config.header = action.payload;
     },
     changeAddress(state, action) {
-      state.address = action.payload
+      state.address = action.payload;
     },
     changeResponse(state, action) {
-      state.response = action.payload
+      state.response = action.payload;
     },
     changeType(state, action) {
       return {
         ...state,
-        ...action.payload
-      }
-    }
-  }
+        ...action.payload,
+      };
+    },
+  },
 };
 export default RequestModel;
