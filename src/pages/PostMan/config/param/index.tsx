@@ -19,42 +19,81 @@ const ConfigRequestParam: React.FC<PageType> = ({
   loading,
   dispatch,
 }) => {
-  // let [param, setParam] = useState([{ name: '', value: '' },{ name: '', value: '' },{ name: '', value: '' }]);
-  // setParam(param = );
+  // let [param, setParam] = useState([...RequestInfo.config.param]);
+  // setParam(param = [...RequestInfo.config.param]);
 
   let param = [...RequestInfo.config.param];
 
   // 监听修改
-  const inputChange = (val: any, index: Number) => {
+  const inputChange = (val: any, index: any) => {
+    let address: any = RequestInfo.address;
+    let param_s: any = JSON.parse(JSON.stringify(param));
     // 新增数据
-    if (index === param.length - 1 && val.target.value !== '') {
+    if (index === param_s.length - 1 && val.target.value !== '') {
       val.target.blur();
-      const params = [...param, { name: '', value: '' }];
-      changeState(params);
+      param_s = [...param_s, { name: '', value: '' }];
+      // 修改地址
+      address = address.split('?')[0] + addressChecked(param_s);
+      changeAddress(address);
+      changeState(param_s);
       val.target.focus();
     } else {
       // 修改数据
       const key = val.target.getAttribute('data-value');
       if (key === 'name' && val.target.value === '') {
-        param[index]['value'] = '';
-        param = param.filter((t: any, idx: number) => idx !== index);
+        param_s[index]['value'] = '';
+        param_s = param_s.filter((t: any, idx: number) => idx !== index);
       } else {
-        param[index][key] = val.target.value;
+        param_s[index][key] = val.target.value;
       }
-      changeState(param);
+      changeState(param_s);
+      address = address.split('?')[0] + addressChecked(param_s);
+      changeAddress(address);
     }
+    // 如果链接上面有参数则修改参数
   };
 
   // 修改state
-  const changeState = (param: any) => {
+  const changeState = (param: any, header: any = RequestInfo.config.header) => {
     dispatch({
       type: 'RequestInfo/changeType',
       payload: {
         ...RequestInfo,
-        config: { param, header: RequestInfo.config.header },
+        config: { param, header },
       },
     });
   };
+
+  // 修改state
+  const changeAddress = (address: string) => {
+    dispatch({
+      type: 'RequestInfo/changeAddress',
+      payload: address,
+    });
+  };
+
+  // 修改address
+  const addressChecked = (param: any) => {
+    let str = '';
+    param
+      .filter((t: any) => t.name !== '')
+      .map((t: any) => {
+        str += `${t.name}=${t.value}&`;
+      });
+    return '?' + str.slice(0, -1);
+  };
+
+  // // 修改Address
+  // const changeAddress = (header: any) => {
+  //   dispatch({
+  //     type: 'RequestInfo/changeAddress',
+  //     payload: {
+  //       ...RequestInfo,
+  //       config: { header },
+  //     },
+  //   });
+  // };
+
   return (
     <div className={Style['config-request-param']}>
       <Row className={Style.header}>

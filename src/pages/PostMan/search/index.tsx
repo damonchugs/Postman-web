@@ -43,6 +43,10 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
     local ? JSON.parse(local) : [],
   );
 
+  let [RequestInfoAddress, SetRequestInfoAddress] = useState(
+    RequestInfo.address,
+  );
+
   // 保存搜索数据
   const saveSearchData = (search: string) => {
     if (!JSON.stringify(AutoOptions).includes(search)) {
@@ -60,6 +64,7 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
       ...RequestInfo,
       address: val,
     };
+
     // 地址栏链接含有数据
     if (val.includes('?')) {
       const param_object = JSON.parse(
@@ -126,7 +131,19 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
     localStorage.setItem('GANPOSTMANWEBSEARCH', JSON.stringify([]));
   };
 
+  const changeValAddress = (event: EventListenerObject) => {
+    console.log(RequestInfo.address, 'change');
+    SetRequestInfoAddress((RequestInfoAddress = RequestInfo.address));
+  };
+
   // 关闭弹窗
+
+  let num = 0;
+  useEffect(() => {
+    SetRequestInfoAddress(RequestInfo.address);
+    // SetRequestInfoAddress(RequestInfoAddress = RequestInfo.address)
+    // changeState(RequestInfo.address);
+  }, [RequestInfo.address]);
 
   return (
     <div className={Style.SearchBox}>
@@ -147,18 +164,20 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
         {/* <Search defaultValue={RequestInfo.address} style={{ width: '100%' }} placeholder="" onSearch={(val) => changeState(val)} enterButton /> */}
         <AutoComplete
           style={{ width: 'calc(100% - 100px)' }}
+          value={RequestInfoAddress}
           options={AutoOptions}
           placeholder="search"
           filterOption={(inputValue, option) =>
             option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
           }
+          onSelect={(val) => changeState(val)}
+          onSearch={(val) => changeState(val)}
         >
           <Input.Search
-            defaultValue={RequestInfo.address}
             style={{ width: '100%' }}
             placeholder=""
-            onSearch={(val) => changeState(val)}
             enterButton
+            onSearch={(val) => changeState(val)}
           />
           {/* <Input.Search size="large" placeholder="input here" enterButton /> */}
         </AutoComplete>
@@ -193,3 +212,6 @@ export default connect(
     dispatch,
   }),
 )(SearchBox);
+function setInputValue(value: string) {
+  throw new Error('Function not implemented.');
+}

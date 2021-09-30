@@ -29,7 +29,7 @@ export interface RequestType {
     // 启用 immer 之后
     // save: ImmerReducer<UserInfoModelState>;
   };
-  subscriptions?: { setup: Subscription };
+  subscriptions?: { setup?: Subscription };
 }
 const RequestModel: RequestType = {
   namespace: 'RequestInfo',
