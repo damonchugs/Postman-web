@@ -64,7 +64,7 @@ const RequestModel: RequestType = {
       };
     },
     changePostType(state, action) {
-      state.postType = action.payload;
+      state.postType = decodeURI(action.payload);
     },
     changeParam(state, action) {
       state.config.param = action.payload;
@@ -73,7 +73,7 @@ const RequestModel: RequestType = {
       state.config.header = action.payload;
     },
     changeAddress(state, action) {
-      state.address = action.payload;
+      state.address = decodeURI(action.payload);
     },
     changeResponse(state, action) {
       state.response = action.payload;

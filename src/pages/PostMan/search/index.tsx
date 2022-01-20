@@ -73,7 +73,7 @@ const SearchBox: React.FC<PageType> = ({ RequestInfo, loading, dispatch }) => {
           '"}',
       );
       for (const key in param_object) {
-        param.push({ name: key, value: param_object[key] });
+        param.push({ name: key, value: decodeURI(param_object[key]) });
       }
       param.push({ name: '', value: '' });
       dispatch({ type: 'RequestInfo/changeParam', payload: param });
